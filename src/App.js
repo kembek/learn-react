@@ -1,28 +1,42 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+
+import Header from './components/Header'
+import TaskList from './components/TaskList'
+
+
+const tasks = [
+  {
+    id: 1,
+    title: 'Lear JS',
+    status: true
+  },
+  {
+    id: 2,
+    title: 'Lear ReactJS',
+    status: false
+  },
+  {
+    id: 3,
+    title: 'Write application',
+    status: true
+  },
+  {
+    id: 4,
+    title: 'Go Home',
+    status: false
+  }
+]
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <main>
+        <Header title='React todo better' tasks={tasks} />
+        <TaskList initialData={tasks} />
+        
+      </main>
+    )
   }
 }
 
-export default App;
+export default App
