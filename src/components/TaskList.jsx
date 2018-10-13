@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import Task from './Task'
 import Form from './Form'
+import Stats from './Stats'
 
 class TaskList extends Component {
   constructor(props) {
@@ -14,6 +15,12 @@ class TaskList extends Component {
 
     this.handleChangeStatus = this.handleChangeStatus.bind(this)
     this.handleDeleteTask = this.handleDeleteTask.bind(this)
+    this.handleAddTask = this.handleAddTask.bind(this)
+  }
+
+  getNextId() {
+    this._nextId = this._nextId || 5
+    return this._nextId++
   }
 
   handleChangeStatus(id) {
@@ -38,23 +45,24 @@ class TaskList extends Component {
     })
   }
 
+  handleAddTask(title) {
+    let task = {
+      id: this.getNextId(),
+      title,
+      status: false
+    }
+
+    let tasks = [...this.state.tasks, task]
+
+    this.setState({
+      tasks
+    })
+  }
+
   render() {
     return (
       <div className='content'>
-        <section className='todo-list'>
-          {
-            this.state.tasks.map(task =>
-              <Task
-                key={task.id}
-                id={task.id}
-                title={task.title}
-                status={task.status}
-                onChangeStatus={this.handleChangeStatus}
-                onDeleteTask={this.handleDeleteTask}
-              />)
-          }
-        </section>
-        <Form />
+        
       </div>
     )
   }
