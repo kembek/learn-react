@@ -1,29 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import App from './App'
+import App from './App';
 
-// const tasks = [
-//   {
-//     id: 1,
-//     title: 'Lear JS',
-//     status: true
-//   },
-//   {
-//     id: 2,
-//     title: 'Lear ReactJS',
-//     status: false
-//   },
-//   {
-//     id: 3,
-//     title: 'Write application',
-//     status: true
-//   },
-//   {
-//     id: 4,
-//     title: 'Go Home',
-//     status: false
-//   }
-// ]
+import books from './data/books';
+import topics from './data/topics';
 
-ReactDOM.render(<App />, document.getElementById('root'))
+import 'material-components-web/dist/material-components-web.css';
+import './index.css';
+
+ReactDOM.render(<Router><App books={books} topics={topics} /></Router>, document.getElementById('root'));
