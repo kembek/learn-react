@@ -1,0 +1,12 @@
+.box {
+  height: 200px;
+  width: 200px;
+}
+
+.box--black {
+  background: #000;
+}
+
+.box--red {
+  background: #f00;
+}

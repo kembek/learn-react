@@ -1,33 +1,91 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import "./box.css";
 
-import './App.css';
-import logo from './logo.svg';
+const Context = React.createContext();
+const theme = {
+  black: "black",
+  red: "red"
+};
 
-import { Tabs, Tab } from './components/Tabs';
+class Provider extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      color: theme["black"]
+    };
+  }
 
-export default class App extends Component {
-    render() {
-        return (
-            <div className="app">
-                <header>
-                    <img src={logo} alt="React logo" />
-                    <h1>React 16</h1>
-                </header>
-
-                <main>
-                    <Tabs>
-                        <Tab label="Tab 1">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae debitis repudiandae animi dignissimos voluptatibus! Facilis iste architecto possimus vero quo, accusamus asperiores nobis, ullam aliquam atque cumque laboriosam. Excepturi, totam.
-                        </Tab>
-                        <Tab label="Tab 2">
-                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus ipsa ad dolore quidem. Libero architecto unde placeat eum rerum, assumenda doloribus doloremque corporis nesciunt beatae quae autem sint, aspernatur sunt!
-                        </Tab>
-                        <Tab label="Tab 3">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta laboriosam dolorem natus blanditiis laborum iusto quam officia nulla obcaecati alias ad eligendi facere laudantium, porro omnis architecto praesentium incidunt impedit!
-                        </Tab>
-                    </Tabs>
-                </main>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <Context.Provider
+        value={{
+          theme: this.state,
+          changeColor: color =>
+            this.setState({
+              color: theme[color]
+            })
+        }}
+      >
+        {this.props.children}
+      </Context.Provider>
+    );
+  }
 }
+
+const Box = props => <div className={`box box--${props.color}`} />;
+
+const Consumer = props => {
+  return (
+    <Context.Consumer>{context => props.children(context)}</Context.Consumer>
+  );
+};
+
+const BoxWrapper = props => (
+  <Consumer>
+    {context => {
+      const {
+        theme: { color }
+      } = context;
+      return <Box color={color} {...props} />;
+    }}
+  </Consumer>
+);
+
+const Button = props => (
+  <button onClick={() => props.onClickChangeColor(props.text)}>
+    {props.text.toUpperCase()}
+  </button>
+);
+
+const ButtonWrapper = props => (
+  <Consumer>
+    {context => {
+      const { changeColor } = context;
+
+      return <Button onClickChangeColor={changeColor} {...props} />;
+    }}
+  </Consumer>
+);
+
+class App extends Component {
+  render() {
+    return (
+      <Provider>
+        <div>
+          <div>
+            <div>
+              <div>
+                <BoxWrapper />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ButtonWrapper text="red" />
+        <ButtonWrapper text="black" />
+      </Provider>
+    );
+  }
+}
+
+export default App;
